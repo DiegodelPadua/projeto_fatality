@@ -240,10 +240,57 @@ app.get('/v1/senai/usuarios/pesquisa', function (request, response) {
     })
 })
 
+app.get('/v1/senai/help', function(request, response){
+
+    let docAPI = {
+
+        "API-description": "API para manipular dados do Whatsapp", 
+        "date": "2026-04-02",
+        "Development": "Diego de Pádua", "email": "diego.lemos@docente.senai.br",
+        "Version": "1.0",
+        "Endpoints":[
+            {
+                "id": 1,
+                "Rota 1": "/v1/senai/usuarios",
+                "obs": "Retorna a lista de todos os estados"
+            },
+            {
+                "id": 2,
+                "Rota 2": "/v1/senai/usuarios/profile?numero=",
+                "obs": "Retorna os dados do estado filtrando pela sigla do estado"
+            },
+            {
+                "id": 3,
+                "Rota 3": "/v1/senai/usuarios/contatos?numero=",
+                "obs": "Retorna os dados da capital filtrando pela sigla do estado"
+            },
+            {
+                "id": 4,
+                "Rota 4": "/v1/senai/usuarios/mensagens?numero=",
+                "obs": "Retorna todos os estados que formaram capital do Brasil"
+            },
+            {
+                "id": 5,
+                "Rota 5": "/v1/senai/usuarios/conversa?numero=(11987876567)&contato=Ana Maria",
+                "obs": "Retorna todos os estados que se referem a uma região"
+            },
+            {
+                "id": 6,
+                "Rota 6": "/v1/senai/usuarios/pesquisa?numero=(11987876567)&contato=Ana Maria&palavra= beach ",
+                "obs": "Retorna todas as cidades filtrando pela sigla do estado"
+            }
+        ]
+
+    }
+
+    response.status(200)
+    response.json(docAPI)
+
+})
+
 app.listen(8080, function () {
     console.log('API rodando...')
 })
-
 
 // ==========================================
 // TRATAMENTO DE ROTAS INVÁLIDAS

@@ -21,45 +21,49 @@ function listarTodosUsuarios() {
 
 
 // Função 2: lista somente os dados do profile
-function listarDadosProfile() {
+function listarDadosProfile(numero) {
 
-    // Guarda todos os usuários dentro da variável usuarios
+    // Pega todos os usuários
     const usuarios = contatos["whats-users"]
 
-    // O map percorre todos os usuários do array
-    // e cria um NOVO array somente com os dados
-    const profiles = usuarios.map(usuario => ({
+    // Procura o usuário pelo número (filtro principal)
+    const usuarioFiltrado = usuarios.find(usuario => usuario.number === numero)
+
+    // Se não encontrar o usuário
+    if (!usuarioFiltrado) {
+        return null
+    }
+
+    // Monta o objeto somente com os dados do profile
+    const profile = {
 
         // id do usuário
-        id: usuario.id,
+        id: usuarioFiltrado.id,
 
         // nome da conta
-        nome: usuario.account,
+        nome: usuarioFiltrado.account,
 
         // apelido da conta
-        nick: usuario.nickname,
+        nick: usuarioFiltrado.nickname,
 
         // imagem de perfil
-        foto: usuario["profile-image"],
+        foto: usuarioFiltrado["profile-image"],
 
         // número do usuário
-        numero: usuario.number,
+        numero: usuarioFiltrado.number,
 
         // cor de fundo do profile
-        corDeFundo: usuario.background,
+        corDeFundo: usuarioFiltrado.background,
 
         // data de criação da conta
-        criacao: usuario["created-since"].start,
+        criacao: usuarioFiltrado["created-since"].start,
 
         // data de encerramento da conta
-        encerramento: usuario["created-since"].end
-    }))
+        encerramento: usuarioFiltrado["created-since"].end
+    }
 
-    // Mostra no console o resultado completo e organizado
-    //console.log(JSON.stringify(profiles, null, 2))
-
-    // Retorna o novo array com os dados do profile
-    return profiles
+    // Retorna o profile do usuário encontrado
+    return profile
 }
 
 

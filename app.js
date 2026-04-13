@@ -62,17 +62,41 @@ app.get('/v1/senai/usuarios', function (request, response) {
 
 app.get('/v1/senai/usuarios/profile', function (request, response) {
 
-    // Chama a função do funcao.js
-    const resultado = funcaoContatos.listarDadosProfile()
+    const numero = request.query.numero
 
-    // Retorna os dados em JSON
+    //  valida se foi enviado
+    if (!numero) {
+        return response.status(400).json({
+            status: false,
+            message: "O número é obrigatório."
+        })
+    }
+
+    // valida se é número (somente dígitos)
+    if (!/^\d+$/.test(numero)) {
+        return response.status(400).json({
+            status: false,
+            message: "O número deve conter apenas dígitos."
+        })
+    }
+
+    //  chama a função
+    const resultado = funcaoContatos.listarDadosProfile(numero)
+
+    // valida se encontrou o usuário
+    if (resultado === null) {
+        return response.status(404).json({
+            status: false,
+            message: "Usuário não encontrado."
+        })
+    }
+
+    // retorna sucesso
     return response.status(200).json({
         status: true,
-        quantidade: resultado.length, // quantidade de usuários
         dados: resultado
     })
 })
-
 app.get('/v1/senai/usuarios/contatos', function (request, response) {
 
     // Pega o número pela query
@@ -135,7 +159,7 @@ app.get('/v1/senai/usuarios/mensagens', function (request, response) {
     })
 })
 
-app.get('/v1/senai/usuario/conversa', function (request, response) {
+app.get('/v1/senai/usuarios/conversa', function (request, response) {
 
     const numero = request.query.numero
     const contato = request.query.contato
@@ -154,7 +178,7 @@ app.get('/v1/senai/usuario/conversa', function (request, response) {
         })
     }
 
-    // 👇 usando a função pelo objeto
+    // usando a função pelo objeto
     const resultado = funcaoContatos.listarConversaUsuarioContato(numero, contato)
 
     if (resultado === null) {
@@ -179,7 +203,7 @@ app.get('/v1/senai/usuario/conversa', function (request, response) {
 
 
 
-app.get('/v1/senai/usuario/pesquisa', function (request, response) {
+app.get('/v1/senai/usuarios/pesquisa', function (request, response) {
 
     const numero = request.query.numero
     const contato = request.query.contato
@@ -218,4 +242,15 @@ app.get('/v1/senai/usuario/pesquisa', function (request, response) {
 
 app.listen(8080, function () {
     console.log('API rodando...')
+})
+
+
+// ==========================================
+// TRATAMENTO DE ROTAS INVÁLIDAS
+// ==========================================
+app.use((request, response) => {
+    return response.status(404).json({
+        status: false,
+        message: "Endpoint não encontrado. Verifique a URL ou utilize query (?numero=...)."
+    })
 })

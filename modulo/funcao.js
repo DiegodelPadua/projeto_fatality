@@ -103,7 +103,7 @@ function listarContatosDosUsuarios(numero) {
     }
 
     // Mostra no console o resultado formatado
-    console.log(JSON.stringify(resultado, null, 2))
+    //console.log(JSON.stringify(resultado, null, 2))
 
     // Retorna o resultado
     return resultado
@@ -121,7 +121,7 @@ function listarMensagensDoUsuario(numero) {
 
     // 3. Verifica se encontrou o usuário
     if (!usuarioFiltrado) {
-        console.log("Usuário não encontrado.")
+        //console.log("Usuário não encontrado.")
         return null
     }
 
